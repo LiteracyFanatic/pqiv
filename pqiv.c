@@ -395,17 +395,25 @@ PQIV_DISABLE_PEDANTIC
 // implemented for option parsing.
 GOptionEntry options[] = {
 	{ "transparent-background", 'c', 0, G_OPTION_ARG_NONE, &option_transparent_background, "Borderless transparent window", NULL },
+	{ "no-transparent-background", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_transparent_background, NULL, NULL },
 	{ "slideshow-interval", 'd', 0, G_OPTION_ARG_DOUBLE, &option_slideshow_interval, "Set slideshow interval", "n" },
 	{ "fullscreen", 'f', 0, G_OPTION_ARG_NONE, &option_start_fullscreen, "Start in fullscreen mode", NULL },
+	{ "no-fullscreen", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_start_fullscreen, NULL, NULL },
 	{ "fade", 'F', 0, G_OPTION_ARG_NONE, (gpointer)&option_fading, "Fade between images", NULL },
+	{ "no-fade", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, (gpointer)&option_fading, NULL, NULL },
 #ifndef CONFIGURED_WITHOUT_INFO_TEXT
 	{ "hide-info-box", 'i', 0, G_OPTION_ARG_NONE, &option_hide_info_box, "Initially hide the info box", NULL },
+	{ "no-hide-info-box", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_hide_info_box, NULL, NULL },
 #endif
 	{ "lazy-load", 'l', 0, G_OPTION_ARG_NONE, &option_lazy_load, "Display the main window as soon as one image is loaded", NULL },
+	{ "no-lazy-load", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_lazy_load, NULL, NULL },
 	{ "sort", 'n', 0, G_OPTION_ARG_NONE, &option_sort, "Sort files in natural order", NULL },
+	{ "no-sort", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_sort, NULL, NULL },
 	{ "window-position", 'P', 0, G_OPTION_ARG_CALLBACK, &option_window_position_callback, "Set initial window position (`x,y' or `off' to not position the window at all)", "POSITION" },
 	{ "additional-from-stdin", 'r', 0, G_OPTION_ARG_NONE, &option_addl_from_stdin, "Read additional filenames/folders from stdin", NULL },
+	{ "no-additional-from-stdin", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_addl_from_stdin, NULL, NULL },
 	{ "slideshow", 's', 0, G_OPTION_ARG_NONE, &option_start_with_slideshow_mode, "Activate slideshow mode", NULL },
+	{ "no-slideshow", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_start_with_slideshow_mode, NULL, NULL },
 	{ "scale-images-up", 't', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, &option_scale_level_callback, "Scale images up to fill the whole screen", NULL },
 	{ "window-title", 'T', 0, G_OPTION_ARG_STRING, &option_window_title, "Set the title of the window. See manpage for available variables.", "TITLE" },
 	{ "zoom-level", 'z', 0, G_OPTION_ARG_DOUBLE, &option_initial_scale, "Set initial zoom level (1.0 is 100%)", "FLOAT" },
@@ -425,9 +433,12 @@ GOptionEntry options[] = {
 #ifndef CONFIGURED_WITHOUT_ACTIONS
 	{ "action", 0, 0, G_OPTION_ARG_CALLBACK, &option_action_callback, "Perform a given action", "ACTION" },
 	{ "actions-from-stdin", 0, 0, G_OPTION_ARG_NONE, &option_actions_from_stdin, "Read actions from stdin", NULL },
+	{ "no-actions-from-stdin", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_actions_from_stdin, NULL, NULL },
 	{ "allow-empty-window", 0, 0, G_OPTION_ARG_NONE, &option_allow_empty_window, "Show pqiv/do not quit even though no files are loaded", NULL },
+	{ "no-allow-empty-window", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_allow_empty_window, NULL, NULL },
 #ifndef CONFIGURED_WITHOUT_MONTAGE_MODE
 	{ "auto-montage-mode", 0, 0, G_OPTION_ARG_NONE, &option_auto_montage_mode, "Automatically enter montage mode if multiple images are opened", NULL },
+	{ "no-auto-montage-mode", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_auto_montage_mode, NULL, NULL },
 #endif
 #endif
 	{ "background-pattern", 0, 0, G_OPTION_ARG_CALLBACK, &options_background_pattern_callback, "Set the background pattern to use for transparent images", "PATTERN" },
@@ -438,18 +449,25 @@ GOptionEntry options[] = {
 	{ "box-colors", 0, 0, G_OPTION_ARG_CALLBACK, (gpointer)&option_box_colors_callback, "Set box colors", "TEXT:BACKGROUND" },
 #endif
 	{ "browse", 0, 0, G_OPTION_ARG_NONE, &option_browse, "For each command line argument, additionally load all images from the image's directory", NULL },
+	{ "no-browse", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_browse, NULL, NULL },
 	{ "disable-backends", 0, 0, G_OPTION_ARG_STRING, &option_disable_backends, "Disable the given backends", "BACKENDS" },
 	{ "disable-scaling", 0, G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, &option_scale_level_callback, "Disable scaling of images", NULL },
 	{ "end-of-files-action", 0, 0, G_OPTION_ARG_CALLBACK, &option_end_of_files_action_callback, "Action to take after all images have been viewed. (`quit', `wait', `wrap', `wrap-no-reshuffle')", "ACTION" },
 	{ "enforce-window-aspect-ratio", 0, 0, G_OPTION_ARG_NONE, &option_enforce_window_aspect_ratio, "Fix the aspect ratio of the window to match the current image's", NULL },
+	{ "no-enforce-window-aspect-ratio", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_enforce_window_aspect_ratio, NULL, NULL },
 	{ "fade-duration", 0, 0, G_OPTION_ARG_DOUBLE, &option_fading_duration, "Adjust fades' duration", "SECONDS" },
 	{ "low-memory", 0, 0, G_OPTION_ARG_NONE, &option_lowmem, "Try to keep memory usage to a minimum", NULL },
+	{ "no-low-memory", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_lowmem, NULL, NULL },
 	{ "max-depth", 0, 0, G_OPTION_ARG_INT, &option_max_depth, "Descend at most LEVELS levels of directories below the command line arguments", "LEVELS" },
 	{ "negate", 0, 0, G_OPTION_ARG_NONE, &option_negate, "Negate images: show negatives", NULL },
+	{ "no-negate", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_negate, NULL, NULL },
 	{ "recreate-window", 0, 0, G_OPTION_ARG_NONE, &option_recreate_window, "Create a new window instead of resizing the old one", NULL },
+	{ "no-recreate-window", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_recreate_window, NULL, NULL },
 	{ "reverse", 0, 0, G_OPTION_ARG_NONE, &option_reverse, "Reverse the order of sorted files", NULL },
+	{ "no-reverse", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_reverse, NULL, NULL },
 	{ "scale-mode-screen-fraction", 0, 0, G_OPTION_ARG_DOUBLE, &option_scale_screen_fraction, "Screen fraction to use for auto-scaling", "FLOAT" },
 	{ "shuffle", 0, 0, G_OPTION_ARG_NONE, &option_shuffle, "Shuffle files", NULL },
+	{ "no-shuffle", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_shuffle, NULL, NULL },
 #ifndef CONFIGURED_WITHOUT_ACTIONS
 	{ "show-bindings", 0, G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, &help_show_key_bindings, "Display the keyboard and mouse bindings and exit", NULL },
 #endif
@@ -460,7 +478,9 @@ GOptionEntry options[] = {
 	{ "thumbnail-persistence", 0, 0, G_OPTION_ARG_CALLBACK, &option_thumbnail_persistence_callback, "Persist thumbnails to disk, to DIRECTORY.", "DIRECTORY" },
 #endif
 	{ "wait-for-images-to-appear", 0, 0, G_OPTION_ARG_NONE, &option_wait_for_images_to_appear, "If no images are found, wait until at least one appears", NULL },
+	{ "no-wait-for-images-to-appear", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_wait_for_images_to_appear, NULL, NULL },
 	{ "watch-directories", 0, 0, G_OPTION_ARG_NONE, &option_watch_directories, "Watch directories for new files", NULL },
+	{ "no-watch-directories", 0, G_OPTION_FLAG_HIDDEN | G_OPTION_FLAG_REVERSE, G_OPTION_ARG_NONE, &option_watch_directories, NULL, NULL },
 	{ "watch-files", 0, 0, G_OPTION_ARG_CALLBACK, &option_watch_files_callback, "Watch files for changes on disk (`on`, `off', `changes-only', i.e. do nothing on deletetion)", "VALUE" },
 	{ "version", 0, G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, &help_show_version, "Show version information and quit", NULL },
 
@@ -1117,8 +1137,6 @@ void parse_configuration_file_callback(char *section, char *key, config_parser_v
 					for(GOptionEntry *iter = options; iter->description != NULL; iter++) {
 						if(iter->long_name != NULL && iter->arg == G_OPTION_ARG_NONE && g_strcmp0(iter->long_name, argv_val + 2) == 0) {
 							*(gboolean *)(iter->arg_data) = TRUE;
-							iter->flags |= G_OPTION_FLAG_REVERSE;
-							iter->description = g_strdup_printf("[Set to do not/disable:] %s", iter->description);
 							direct_parsing_successfull = TRUE;
 							break;
 						}
@@ -1134,8 +1152,6 @@ void parse_configuration_file_callback(char *section, char *key, config_parser_v
 								found = TRUE;
 								if(iter->arg == G_OPTION_ARG_NONE) {
 									*(gboolean *)(iter->arg_data) = TRUE;
-									iter->flags |= G_OPTION_FLAG_REVERSE;
-									iter->description = g_strdup_printf("[Set to do not/disable:] %s", iter->description);
 								}
 								else {
 									direct_parsing_successfull = FALSE;
@@ -1198,13 +1214,9 @@ void parse_configuration_file_callback(char *section, char *key, config_parser_v
 		for(GOptionEntry *iter = options; iter->arg_data != NULL; iter++) {
 			if(iter->long_name != NULL && strcmp(iter->long_name, key) == 0) {
 				switch(iter->arg) {
-					case G_OPTION_ARG_NONE: {
+					case G_OPTION_ARG_NONE:
 						*(gboolean *)(iter->arg_data) = !!value->intval;
-						if(value->intval) {
-							iter->flags |= G_OPTION_FLAG_REVERSE;
-							iter->description = g_strdup_printf("[Set to do not/disable:] %s", iter->description);
-						}
-					} break;
+						break;
 					case G_OPTION_ARG_CALLBACK:
 					case G_OPTION_ARG_STRING:
 						if(value->chrpval != NULL) {
