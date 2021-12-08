@@ -294,6 +294,7 @@ gboolean option_start_fullscreen = FALSE;
 gdouble option_initial_scale = 1.0;
 gboolean option_start_with_slideshow_mode = FALSE;
 gboolean option_sort = FALSE;
+gboolean option_reverse = FALSE;
 enum { NAME, MTIME } option_sort_key = NAME;
 gboolean option_shuffle = FALSE;
 gboolean option_transparent_background = FALSE;
@@ -446,6 +447,7 @@ GOptionEntry options[] = {
 	{ "max-depth", 0, 0, G_OPTION_ARG_INT, &option_max_depth, "Descend at most LEVELS levels of directories below the command line arguments", "LEVELS" },
 	{ "negate", 0, 0, G_OPTION_ARG_NONE, &option_negate, "Negate images: show negatives", NULL },
 	{ "recreate-window", 0, 0, G_OPTION_ARG_NONE, &option_recreate_window, "Create a new window instead of resizing the old one", NULL },
+	{ "reverse", 0, 0, G_OPTION_ARG_NONE, &option_reverse, "Reverse the order of sorted files", NULL },
 	{ "scale-mode-screen-fraction", 0, 0, G_OPTION_ARG_DOUBLE, &option_scale_screen_fraction, "Screen fraction to use for auto-scaling", "FLOAT" },
 	{ "shuffle", 0, 0, G_OPTION_ARG_NONE, &option_shuffle, "Shuffle files", NULL },
 #ifndef CONFIGURED_WITHOUT_ACTIONS
@@ -1906,13 +1908,18 @@ void file_tree_free_helper(BOSNode *node) {
 		g_slice_free(float, node->key);
 	}
 }
+int cmp_function(const void *a, const void *b)
+{
+	int cmp = option_sort ? strnatcasecmp(a, b) : image_tree_float_compare(a, b);
+	return option_reverse ? -cmp : cmp;
+}
 void load_images() {/*{{{*/
 	int * const argc = &global_argc;
 	char ** const argv = global_argv;
 
 	// Allocate memory for the file list (Used for unsorted and random order file lists)
 	file_tree = bostree_new(
-		option_sort ? (BOSTree_cmp_function)strnatcasecmp : (BOSTree_cmp_function)image_tree_float_compare,
+		(BOSTree_cmp_function)cmp_function,
 		file_tree_free_helper
 	);
 	file_tree_valid = TRUE;
